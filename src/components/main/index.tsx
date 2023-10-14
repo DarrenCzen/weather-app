@@ -69,7 +69,7 @@ export const Main = () => {
   }
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-b from-purple-400 to-purple-600">
+    <div className="flex min-h-screen bg-[url('../assets/images/bg-light.png')] bg-cover bg-fixed bg-no-repeat">
       <section className="w-full py-16">
         <div className="container px-4 md:px-6">
           <div className="grid items-center gap-6">
