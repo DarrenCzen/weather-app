@@ -4,3 +4,11 @@ export type SearchHistoryType = {
   country: string
   dateSearched: Date
 }
+
+export type SearchResultType = {
+  weather: string
+  humidity: number
+  minTemperature: number
+  maxTemperature: number
+  averageTemperature: number
+} & SearchHistoryType

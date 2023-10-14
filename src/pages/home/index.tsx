@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet'
-import { Hero } from 'src/components/hero'
+import { Main } from 'src/components/main'
 
 export default function Home() {
   return (
@@ -7,7 +7,7 @@ export default function Home() {
       <Helmet>
         <title>Weather Application</title>
       </Helmet>
-      <Hero />
+      <Main />
     </>
   )
 }
