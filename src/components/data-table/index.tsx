@@ -1,4 +1,3 @@
-import { ReactNode } from 'react'
 import { SearchHistoryType } from 'src/types/SearchHistoryModel'
 import { Button } from '../ui/button'
 import { Search, Trash2Icon } from 'lucide-react'
@@ -6,7 +5,6 @@ import dayjs from 'dayjs'
 import useWindowSize from 'src/hooks/useWindowSize'
 
 interface IProps {
-  leftNode?: ReactNode
   dataItems?: SearchHistoryType[]
   deleteItem: (id: string) => void
   searchItem: (id: string) => void
@@ -40,7 +38,7 @@ export function SearchHistory(props: IProps) {
 
                   <Button
                     onClick={() => {
-                      props.deleteItem(value.id)
+                      props.searchItem(value.id)
                     }}
                     className="self-center rounded-full bg-white hover:bg-purple-400"
                     asChild
@@ -52,7 +50,7 @@ export function SearchHistory(props: IProps) {
                   </Button>
                   <Button
                     onClick={() => {
-                      props.searchItem(value.id)
+                      props.deleteItem(value.id)
                     }}
                     className="self-center rounded-full bg-white hover:bg-purple-400"
                     asChild

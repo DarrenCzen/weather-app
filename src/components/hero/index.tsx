@@ -4,25 +4,16 @@ import { Input } from '../ui/input'
 import { Label } from '../ui/label'
 import { SearchHistory } from '../data-table'
 import { SearchHistoryType } from 'src/types/SearchHistoryModel'
-
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Payment = {
-  id: string
-  amount: number
-  status: 'pending' | 'processing' | 'success' | 'failed'
-  email: string
-}
-
-const data = [
-  { id: 'abc1', country: 'MY', city: 'Kuala Lumpur', dateSearched: new Date() },
-  { id: 'abc2', country: 'KR', city: 'Seoul', dateSearched: new Date() },
-] as SearchHistoryType[]
+import { useState } from 'react'
 
 export const Hero = () => {
+  const [historyList, setHistoryList] = useState<SearchHistoryType[]>([
+    { id: 'abc1', country: 'MY', city: 'Kuala Lumpur', dateSearched: new Date() },
+    { id: 'abc2', country: 'KR', city: 'Seoul', dateSearched: new Date() },
+  ])
+
   const deleteItem = (id: string) => {
-    // Implement the delete item logic
-    console.log(`${id} deleted`)
+    setHistoryList((prev) => prev.filter((item) => item.id !== id))
   }
 
   const searchSelected = (id: string) => {
@@ -31,7 +22,7 @@ export const Hero = () => {
   }
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-b from-purple-300 to-purple-700">
+    <div className="flex min-h-screen bg-gradient-to-b from-purple-400 to-purple-600">
       <section className="w-full py-16">
         <div className="container px-4 md:px-6">
           <div className="grid items-center gap-6">
@@ -52,6 +43,10 @@ export const Hero = () => {
                   <Button
                     onClick={() => {
                       console.log('here')
+                      setHistoryList([
+                        { id: 'abc1', country: 'MY', city: 'Kuala Lumpur', dateSearched: new Date() },
+                        { id: 'abc2', country: 'KR', city: 'Seoul', dateSearched: new Date() },
+                      ])
                     }}
                     className="rounded-2xl border-2 border-purple-700 bg-purple-700 py-7 hover:bg-purple-400"
                     asChild
@@ -63,7 +58,7 @@ export const Hero = () => {
                 </div>
               </div>
               <div className="container mx-auto max-w-3xl rounded-xl border bg-white bg-opacity-20 py-10">
-                <SearchHistory dataItems={data} searchItem={searchSelected} deleteItem={deleteItem} />
+                <SearchHistory dataItems={historyList} searchItem={searchSelected} deleteItem={deleteItem} />
               </div>
             </div>
           </div>
