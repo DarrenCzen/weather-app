@@ -8,7 +8,7 @@ export type SearchHistoryType = {
 export type SearchResultType = {
   weather: string
   humidity: number
-  minTemperature: number
-  maxTemperature: number
+  minTemp: number
+  maxTemp: number
   averageTemperature: number
 } & SearchHistoryType

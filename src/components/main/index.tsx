@@ -77,8 +77,8 @@ export const Main = () => {
           ...searchHistory,
           weather: data.weather[0].main,
           humidity: data.main.humidity,
-          minTemperature: data.main.temp_min,
-          maxTemperature: data.main.temp_max,
+          minTemp: data.main.temp_min,
+          maxTemp: data.main.temp_max,
           averageTemperature: data.main.temp,
         }
 
@@ -97,7 +97,7 @@ export const Main = () => {
   const [currentSearched, setCurrentSearched] = useState<SearchResultType | undefined>(undefined)
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-b from-purple-600 to-purple-400">
+    <div className="flex min-h-screen bg-gradient-to-b from-purple-500 to-purple-400">
       <section className="w-full py-16">
         <div className="container px-4 md:px-6">
           <div className="grid items-center gap-6">
@@ -109,7 +109,7 @@ export const Main = () => {
               </div>
               <div className="mx-auto flex w-full max-w-3xl">
                 <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-x-2 space-y-8">
                     <FormField
                       control={form.control}
                       name="city"
@@ -145,14 +145,7 @@ export const Main = () => {
                       </div>
                     </Button>
                     <Button
-                      onClick={() => {
-                        form.reset()
-                        console.log('reset clear')
-                        setHistoryList([
-                          { id: 'abc1', country: 'MY', city: 'Kuala Lumpur', dateSearched: new Date() },
-                          { id: 'abc2', country: 'KR', city: 'Seoul', dateSearched: new Date() },
-                        ])
-                      }}
+                      onClick={() => form.reset()}
                       className="rounded-2xl border-2 border-purple-700 bg-purple-700 py-7 hover:bg-purple-400"
                       asChild
                     >
