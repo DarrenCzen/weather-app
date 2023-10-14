@@ -6,7 +6,7 @@ import { LoadingSpinner } from '../loading'
 interface IProps {
   item?: SearchResultType
   isLoading: boolean
-  isError?: string
+  isError?: Error
 }
 
 const displayTitle = `Today's Weather`
@@ -32,7 +32,7 @@ export function SearchedResult(props: IProps) {
           <div className="ml-[-6px] text-8xl font-bold text-[#6C40B5]">{temperature}</div>
           <div>{temperatureRange}</div>
           <div className="flex flex-row justify-between text-[#666666]">
-            <div className="font-bold">{currentSearchedCity}</div>
+            <div className="font-semibold">{currentSearchedCity}</div>
             <div>{dateSearched}</div>
             <div>{currentHumidity}</div>
             <div>{currentWeather}</div>
@@ -46,7 +46,7 @@ export function SearchedResult(props: IProps) {
             <div className="text-black">{displayTitle}</div>
             <div className="ml-[-6px] text-8xl font-bold text-[#6C40B5]">{temperature}</div>
             <div className="text-black">{temperatureRange}</div>
-            <div className="font-bold">{currentSearchedCity}</div>
+            <div className="font-semibold">{currentSearchedCity}</div>
           </div>
           <div className="flex min-h-[150px] flex-col justify-end text-right">
             <div>{currentWeather}</div>
@@ -63,7 +63,7 @@ export function SearchedResult(props: IProps) {
       {props.isLoading ? (
         <LoadingSpinner />
       ) : props.isError ? (
-        <div className="text-red-600">Error Occurred</div>
+        <div className="text-red-600">{`Error Occurred: ${props.isError.message}`}</div>
       ) : props.item ? (
         renderWeatherInfo(props.item)
       ) : (

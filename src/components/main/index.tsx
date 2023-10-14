@@ -16,7 +16,7 @@ const formSchema = z.object({
     .string()
     .min(1, { message: 'This field is required' })
     .max(255, { message: 'City should contain at most 255 characters' }),
-  country: z.string().max(255, { message: 'Country should contain at most 255 characters' }).or(z.literal('')),
+  country: z.string().max(2, { message: 'Country Code should contain at most 2 characters' }).or(z.literal('')),
 })
 
 type formSchemaType = z.infer<typeof formSchema>
@@ -31,7 +31,8 @@ export const Main = () => {
   })
 
   const [historyList, setHistoryList] = useState<SearchHistoryType[]>([
-    { id: 'abc1', country: 'MY', city: 'Kuala Lumpur', dateSearched: new Date() },
+    { id: 'abc1', country: 'SG', city: 'Singapore', dateSearched: new Date() },
+    { id: 'abc2', country: 'MY', city: 'Kuala Lumpur', dateSearched: new Date() },
   ])
 
   const deleteItem = (id: string) => setHistoryList((prev) => prev.filter((item) => item.id !== id))
@@ -46,7 +47,7 @@ export const Main = () => {
   }
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [isError, setIsError] = useState<string | undefined>(undefined)
+  const [isError, setIsError] = useState<Error | undefined>(undefined)
 
   const fetchUserData = async (city: string, country = '') => {
     setIsLoading(true)
@@ -59,13 +60,11 @@ export const Main = () => {
       .then(async (response) => {
         if (!response.ok) {
           const result = await response.json()
-          throw new Error('Network response was not ok' + `${result ?? result.message}`)
+          throw new Error(`Network Response Error - ${result.message ?? ''}`)
         }
-        return response.json()
+        return await response.json()
       })
       .then((data: WeatherApiResult) => {
-        console.log(data)
-
         const searchHistory: SearchHistoryType = {
           id: crypto.randomUUID(),
           city: data.name,
@@ -87,7 +86,6 @@ export const Main = () => {
       })
       .catch((err) => {
         setIsError(err)
-        console.log(err.message)
       })
       .finally(() => {
         setIsLoading(false)
@@ -97,7 +95,7 @@ export const Main = () => {
   const [currentSearched, setCurrentSearched] = useState<SearchResultType | undefined>(undefined)
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-b from-purple-500 to-purple-400">
+    <div className="flex min-h-screen bg-gradient-to-b from-purple-400 to-purple-600">
       <section className="w-full py-16">
         <div className="container px-4 md:px-6">
           <div className="grid items-center gap-6">
@@ -107,52 +105,69 @@ export const Main = () => {
                   Weather Application
                 </h1>
               </div>
-              <div className="mx-auto flex w-full max-w-3xl">
+              <div className="mb-12">
                 <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-x-2 space-y-8">
-                    <FormField
-                      control={form.control}
-                      name="city"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>City</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Enter City Name here" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="mx-auto mb-24 w-full max-w-3xl justify-between"
+                  >
+                    <div className="flex">
+                      <FormField
+                        control={form.control}
+                        name="city"
+                        render={({ field }) => (
+                          <div className="w-3/5 text-left sm:w-3/4 md:w-4/5">
+                            <FormItem>
+                              <div className="relative mb-2 min-h-[60px]">
+                                <FormLabel className="absolute left-0 top-0 pl-4 pt-1 text-xs opacity-60">
+                                  City
+                                </FormLabel>
+                                <FormControl>
+                                  <Input
+                                    className="absolute left-0 top-0 h-[60px] rounded-2xl border-0 bg-white bg-opacity-20 pl-4 focus-visible:ring-0"
+                                    placeholder="Enter City Name here"
+                                    {...field}
+                                  />
+                                </FormControl>
+                              </div>
+                              <FormMessage className="pl-4 font-normal text-red-600" />
+                            </FormItem>
+                          </div>
+                        )}
+                      />
+                      <div className="w-2/5 space-x-2 text-end sm:w-1/4 md:w-1/5">
+                        <Button
+                          type="submit"
+                          className="rounded-2xl border-2 border-purple-700 bg-purple-700 py-7 hover:bg-purple-400"
+                        >
+                          <div className="hover:text-black">
+                            <Search />
+                          </div>
+                        </Button>
+                        <Button
+                          onClick={() => form.reset()}
+                          className="rounded-2xl border-2 border-purple-700 bg-purple-700 py-7 hover:bg-purple-400"
+                          asChild
+                        >
+                          <div className="hover:text-black">
+                            <Eraser />
+                          </div>
+                        </Button>
+                      </div>
+                    </div>
                     <FormField
                       control={form.control}
                       name="country"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="w-3/5 text-left sm:w-3/4 md:w-4/5">
                           <FormLabel>Country</FormLabel>
                           <FormControl>
-                            <Input placeholder="Enter Country Code here (e.g., UK, CA)" {...field} />
+                            <Input maxLength={2} placeholder="Enter Country Code here (e.g., UK, CA)" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                    <Button
-                      type="submit"
-                      className="rounded-2xl border-2 border-purple-700 bg-purple-700 py-7 hover:bg-purple-400"
-                    >
-                      <div className="hover:text-black">
-                        <Search />
-                      </div>
-                    </Button>
-                    <Button
-                      onClick={() => form.reset()}
-                      className="rounded-2xl border-2 border-purple-700 bg-purple-700 py-7 hover:bg-purple-400"
-                      asChild
-                    >
-                      <div className="hover:text-black">
-                        <Eraser />
-                      </div>
-                    </Button>
                   </form>
                 </Form>
               </div>
