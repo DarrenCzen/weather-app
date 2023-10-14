@@ -21,18 +21,16 @@ export const Main = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isError, setIsError] = useState<Error | undefined>(undefined)
 
-  const fetchUserData = async (city: string, country = '') => {
+  const fetchUserData = (city: string, country = '') => {
     setIsLoading(true)
     setIsError(undefined)
 
     const apiKey = '0677877c4441af47948494be02d63ae6'
-    await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}${country ? `,${country}` : ''}&appid=${apiKey}`,
-    )
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}${country ? `,${country}` : ''}&appid=${apiKey}`)
       .then(async (response) => {
         if (!response.ok) {
           const result = await response.json()
-          throw new Error(`Network Response Error - ${result.message ?? ''}`)
+          throw new Error(`Network Error - ${result.message ?? ''}`)
         }
         return await response.json()
       })
@@ -75,9 +73,7 @@ export const Main = () => {
           <div className="grid items-center gap-6">
             <div className="flex flex-col justify-center space-y-4 text-center">
               <div className="mb-8">
-                <h1 className="text-3xl font-bold tracking-tighter text-transparent text-white sm:text-4xl">
-                  Weather Application
-                </h1>
+                <h1 className="text-3xl font-bold text-white">Weather Application</h1>
               </div>
               <div className="mb-12">
                 <SearchForm onSubmit={onSubmit} />

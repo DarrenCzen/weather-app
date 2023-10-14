@@ -79,7 +79,10 @@ export function SearchedResult(props: IProps) {
       {props.isLoading ? (
         <LoadingSpinner />
       ) : props.isError ? (
-        <div className="text-red-600">{`Error Occurred: ${props.isError.message}`}</div>
+        <div className="text-red-600">
+          Please try searching again. <br />
+          {`Error Occurred: ${props.isError.message}`}
+        </div>
       ) : props.item ? (
         renderWeatherInfo(props.item)
       ) : (
