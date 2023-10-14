@@ -35,39 +35,35 @@ export function SearchHistory(props: IProps) {
                   {size.width && size.width > 550 && (
                     <div className="self-center text-xs">{dayjs(value.dateSearched).format('DD-MM-YYYY hh:mmA')}</div>
                   )}
-
-                  <Button
-                    onClick={() => {
-                      props.searchItem(value.id)
-                    }}
-                    className="self-center rounded-full bg-white hover:bg-purple-400"
-                    asChild
-                    size={'sm'}
-                  >
-                    <div className="text-gray-500 hover:text-black">
-                      <Search size={14} />
-                    </div>
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      props.deleteItem(value.id)
-                    }}
-                    className="self-center rounded-full bg-white hover:bg-purple-400"
-                    asChild
-                    size={'sm'}
-                  >
-                    <div className="text-gray-500 hover:text-black">
-                      <Trash2Icon size={14} />
-                    </div>
-                  </Button>
+                  <GenericButton ButtonIcon={<Search size={14} />} id={value.id} executeAction={props.searchItem} />
+                  <GenericButton ButtonIcon={<Trash2Icon size={14} />} id={value.id} executeAction={props.deleteItem} />
                 </div>
               </div>
             </div>
           )
         })
       ) : (
-        <div className="container mx-auto my-10 rounded-xl border py-10">Empty Search History</div>
+        <div className="container mx-auto my-4 rounded-xl bg-white bg-opacity-40 py-10">Empty Search History</div>
       )}
     </div>
+  )
+}
+
+interface IButtonProps {
+  id: string
+  ButtonIcon: React.ReactNode
+  executeAction: (id: string) => void
+}
+
+function GenericButton(props: IButtonProps) {
+  return (
+    <Button
+      className="self-center rounded-full bg-white bg-opacity-40 hover:bg-purple-400"
+      onClick={() => props.executeAction(props.id)}
+      size={'sm'}
+      asChild
+    >
+      <div className="text-zinc-500 hover:text-black">{props.ButtonIcon}</div>
+    </Button>
   )
 }

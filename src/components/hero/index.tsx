@@ -29,7 +29,7 @@ export const Hero = () => {
             <div className="flex flex-col justify-center space-y-4 text-center">
               <div className="mb-4">
                 <h1 className="text-3xl font-bold tracking-tighter text-transparent text-white sm:text-4xl">
-                  Weather Application
+                  Today&apos;s Weather
                 </h1>
               </div>
               <div className="mx-auto flex w-full max-w-3xl">
