@@ -28,31 +28,36 @@ export function SearchForm(props: IProps) {
       city: '',
     },
   })
+
+  const renderInputField = (name: 'city' | 'country', placeholder: string, labelText: string) => (
+    <FormField
+      control={form.control}
+      name={name}
+      render={({ field }) => (
+        <div className="w-3/5 text-left sm:w-3/4 md:w-4/5">
+          <FormItem>
+            <div className="relative mb-2 min-h-[60px]">
+              <FormLabel className="absolute left-0 top-0 pl-4 pt-1 text-xs opacity-60">{labelText}</FormLabel>
+              <FormControl>
+                <Input
+                  className="absolute left-0 top-0 h-[60px] rounded-2xl border-0 bg-white bg-opacity-20 pl-4 focus-visible:ring-0"
+                  placeholder={placeholder}
+                  {...field}
+                />
+              </FormControl>
+            </div>
+            <FormMessage className="pl-4 font-normal text-red-600" />
+          </FormItem>
+        </div>
+      )}
+    />
+  )
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(props.onSubmit)} className="mx-auto mb-24 w-full max-w-3xl justify-between">
         <div className="mb-4 flex">
-          <FormField
-            control={form.control}
-            name="city"
-            render={({ field }) => (
-              <div className="w-3/5 text-left sm:w-3/4 md:w-4/5">
-                <FormItem>
-                  <div className="relative mb-2 min-h-[60px]">
-                    <FormLabel className="absolute left-0 top-0 pl-4 pt-1 text-xs opacity-60">City</FormLabel>
-                    <FormControl>
-                      <Input
-                        className="absolute left-0 top-0 h-[60px] rounded-2xl border-0 bg-white bg-opacity-20 pl-4 focus-visible:ring-0"
-                        placeholder="City Name"
-                        {...field}
-                      />
-                    </FormControl>
-                  </div>
-                  <FormMessage className="pl-4 font-normal text-red-600" />
-                </FormItem>
-              </div>
-            )}
-          />
+          {renderInputField('city', 'City Name', 'City')}
           <div className="w-2/5 space-x-2 text-end sm:w-1/4 md:w-1/5">
             <Button
               type="submit"
@@ -73,28 +78,7 @@ export function SearchForm(props: IProps) {
             </Button>
           </div>
         </div>
-        <FormField
-          control={form.control}
-          name="country"
-          render={({ field }) => (
-            <div className="w-3/5 text-left sm:w-3/4 md:w-4/5">
-              <FormItem>
-                <div className="relative mb-2 min-h-[60px]">
-                  <FormLabel className="absolute left-0 top-0 pl-4 pt-1 text-xs opacity-60">Country</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="absolute left-0 top-0 h-[60px] rounded-2xl border-0 bg-white bg-opacity-20 pl-4 focus-visible:ring-0"
-                      maxLength={2}
-                      placeholder="Country Code (e.g., UK, CA)"
-                      {...field}
-                    />
-                  </FormControl>
-                </div>
-                <FormMessage className="pl-4 font-normal text-red-600" />
-              </FormItem>
-            </div>
-          )}
-        />
+        {renderInputField('country', 'Country Code (e.g., UK, CA)', 'Country')}
       </form>
     </Form>
   )
