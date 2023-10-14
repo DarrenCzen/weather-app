@@ -1,6 +1,8 @@
 ## Weather Application
 
-Choosing a technology stack is a very subjective matter, if you happen to like using `Vite`, `Tailwind`, `TS` and `shadcn ui` and more to build React SPA applications, then give it a try.
+![WeatherApp](https://github.com/DarrenCzen/weather-app/assets/29244334/3ef18c10-d3f9-4089-af0e-101f31e37020)
+
+React SPA application Weather Application built using `Vite`, `Tailwind`, `TS` and `shadcn ui`.
 
 ## Run
 
