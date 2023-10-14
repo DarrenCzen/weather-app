@@ -1,51 +1,23 @@
-import { Button } from '../ui/button'
-import { Input } from '../ui/input'
 import { SearchHistory } from '../data-table'
 import { SearchHistoryType, SearchResultType } from 'src/types/SearchHistoryModel'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
-import { z } from 'zod'
-import { useForm } from 'react-hook-form'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
-import { Eraser, Search } from 'lucide-react'
 import { WeatherApiResult } from 'src/types/WeatherApiType'
 import { SearchedResult } from '../data-display'
-
-const formSchema = z.object({
-  city: z
-    .string()
-    .min(1, { message: 'This field is required' })
-    .max(255, { message: 'City should contain at most 255 characters' }),
-  country: z.string().max(2, { message: 'Country Code should contain at most 2 characters' }).or(z.literal('')),
-})
-
-type formSchemaType = z.infer<typeof formSchema>
+import { SearchForm, formSchemaType } from '../search-form'
 
 export const Main = () => {
-  const form = useForm<formSchemaType>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      country: '',
-      city: '',
-    },
-  })
-
   const [historyList, setHistoryList] = useState<SearchHistoryType[]>([
-    { id: 'abc1', country: 'SG', city: 'Singapore', dateSearched: new Date() },
-    { id: 'abc2', country: 'MY', city: 'Kuala Lumpur', dateSearched: new Date() },
+    { id: crypto.randomUUID(), country: 'SG', city: 'Singapore', dateSearched: new Date() },
+    { id: crypto.randomUUID(), country: 'GB', city: 'Birmingham', dateSearched: new Date() },
   ])
 
   const deleteItem = (id: string) => setHistoryList((prev) => prev.filter((item) => item.id !== id))
-
   const searchSelected = (id: string) => {
     const found = historyList.find((item) => item.id === id)
     if (found) fetchUserData(found.city, found.country)
   }
 
-  function onSubmit(values: formSchemaType) {
-    fetchUserData(values.city, values.country)
-  }
-
+  const [currentSearched, setCurrentSearched] = useState<SearchResultType | undefined>(undefined)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isError, setIsError] = useState<Error | undefined>(undefined)
 
@@ -92,7 +64,9 @@ export const Main = () => {
       })
   }
 
-  const [currentSearched, setCurrentSearched] = useState<SearchResultType | undefined>(undefined)
+  function onSubmit(values: formSchemaType) {
+    fetchUserData(values.city, values.country)
+  }
 
   return (
     <div className="flex min-h-screen bg-gradient-to-b from-purple-400 to-purple-600">
@@ -106,81 +80,7 @@ export const Main = () => {
                 </h1>
               </div>
               <div className="mb-12">
-                <Form {...form}>
-                  <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="mx-auto mb-24 w-full max-w-3xl justify-between"
-                  >
-                    <div className="flex">
-                      <FormField
-                        control={form.control}
-                        name="city"
-                        render={({ field }) => (
-                          <div className="w-3/5 text-left sm:w-3/4 md:w-4/5">
-                            <FormItem>
-                              <div className="relative mb-2 min-h-[60px]">
-                                <FormLabel className="absolute left-0 top-0 pl-4 pt-1 text-xs opacity-60">
-                                  City
-                                </FormLabel>
-                                <FormControl>
-                                  <Input
-                                    className="absolute left-0 top-0 h-[60px] rounded-2xl border-0 bg-white bg-opacity-20 pl-4 focus-visible:ring-0"
-                                    placeholder="Enter City Name here"
-                                    {...field}
-                                  />
-                                </FormControl>
-                              </div>
-                              <FormMessage className="pl-4 font-normal text-red-600" />
-                            </FormItem>
-                          </div>
-                        )}
-                      />
-                      <div className="w-2/5 space-x-2 text-end sm:w-1/4 md:w-1/5">
-                        <Button
-                          type="submit"
-                          className="rounded-2xl border-2 border-purple-700 bg-purple-700 py-7 hover:bg-purple-400"
-                        >
-                          <div className="hover:text-black">
-                            <Search />
-                          </div>
-                        </Button>
-                        <Button
-                          onClick={() => form.reset()}
-                          className="rounded-2xl border-2 border-purple-700 bg-purple-700 py-7 hover:bg-purple-400"
-                          asChild
-                        >
-                          <div className="hover:text-black">
-                            <Eraser />
-                          </div>
-                        </Button>
-                      </div>
-                    </div>
-                    <FormField
-                      control={form.control}
-                      name="country"
-                      render={({ field }) => (
-                        <div className="w-3/5 text-left sm:w-3/4 md:w-4/5">
-                          <FormItem>
-                            <div className="relative mb-2 min-h-[60px]">
-                              <FormLabel className="absolute left-0 top-0 pl-4 pt-1 text-xs opacity-60">
-                                Country
-                              </FormLabel>
-                              <FormControl>
-                                <Input
-                                  className="absolute left-0 top-0 h-[60px] rounded-2xl border-0 bg-white bg-opacity-20 pl-4 focus-visible:ring-0"
-                                  maxLength={2}
-                                  placeholder="Enter Country Code here (e.g., UK, CA)"
-                                  {...field}
-                                />
-                              </FormControl>
-                            </div>
-                            <FormMessage className="pl-4 font-normal text-red-600" />
-                          </FormItem>
-                        </div>
-                      )}
-                    />
-                  </form>
-                </Form>
+                <SearchForm onSubmit={onSubmit} />
               </div>
               <div className="container mx-auto max-w-3xl rounded-xl border bg-white bg-opacity-20 pb-5 pt-2">
                 <SearchedResult isLoading={isLoading} isError={isError} item={currentSearched} />
