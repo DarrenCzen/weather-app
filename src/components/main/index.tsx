@@ -43,7 +43,7 @@ export const Main = () => {
   }
 
   function onSubmit(values: formSchemaType) {
-    fetchUserData(values.city)
+    fetchUserData(values.city, values.country)
   }
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -159,13 +159,24 @@ export const Main = () => {
                       control={form.control}
                       name="country"
                       render={({ field }) => (
-                        <FormItem className="w-3/5 text-left sm:w-3/4 md:w-4/5">
-                          <FormLabel>Country</FormLabel>
-                          <FormControl>
-                            <Input maxLength={2} placeholder="Enter Country Code here (e.g., UK, CA)" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
+                        <div className="w-3/5 text-left sm:w-3/4 md:w-4/5">
+                          <FormItem>
+                            <div className="relative mb-2 min-h-[60px]">
+                              <FormLabel className="absolute left-0 top-0 pl-4 pt-1 text-xs opacity-60">
+                                Country
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  className="absolute left-0 top-0 h-[60px] rounded-2xl border-0 bg-white bg-opacity-20 pl-4 focus-visible:ring-0"
+                                  maxLength={2}
+                                  placeholder="Enter Country Code here (e.g., UK, CA)"
+                                  {...field}
+                                />
+                              </FormControl>
+                            </div>
+                            <FormMessage className="pl-4 font-normal text-red-600" />
+                          </FormItem>
+                        </div>
                       )}
                     />
                   </form>
