@@ -8,7 +8,7 @@ import { SearchForm, formSchemaType } from '../search-form'
 export const Main = () => {
   const [historyList, setHistoryList] = useState<SearchHistoryType[]>([
     { id: crypto.randomUUID(), country: 'SG', city: 'Singapore', dateSearched: new Date() },
-    { id: crypto.randomUUID(), country: 'GB', city: 'Birmingham', dateSearched: new Date() },
+    { id: crypto.randomUUID(), country: 'CU', city: 'Colombia', dateSearched: new Date() },
   ])
 
   const deleteItem = (id: string) => setHistoryList((prev) => prev.filter((item) => item.id !== id))
