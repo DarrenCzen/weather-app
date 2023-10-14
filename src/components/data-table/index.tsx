@@ -13,13 +13,13 @@ interface IProps {
 export function SearchHistory(props: IProps) {
   const size = useWindowSize()
   return (
-    <div className="container mx-auto rounded-xl bg-white bg-opacity-20 py-4">
+    <div className="mx-auto w-full rounded-3xl bg-white bg-opacity-20 p-5">
       <div className="text-left text-sm sm:text-lg">Search History</div>
 
       {props.dataItems && props.dataItems.length > 0 ? (
         props.dataItems.map((value) => {
           return (
-            <div key={value.id} className="container mx-auto my-4 rounded-xl bg-white bg-opacity-40 px-4 py-4">
+            <div key={value.id} className="container mx-auto my-4 rounded-2xl bg-white bg-opacity-40 px-4 py-4">
               <div className="flex flex-row justify-between">
                 <div className="self-center text-xs">
                   {size.width && size.width > 550 ? (

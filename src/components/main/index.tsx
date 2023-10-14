@@ -74,7 +74,7 @@ export const Main = () => {
         <div className="container px-4 md:px-6">
           <div className="grid items-center gap-6">
             <div className="flex flex-col justify-center space-y-4 text-center">
-              <div className="mb-4">
+              <div className="mb-8">
                 <h1 className="text-3xl font-bold tracking-tighter text-transparent text-white sm:text-4xl">
                   Weather Application
                 </h1>
