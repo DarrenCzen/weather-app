@@ -17,7 +17,6 @@ npm run dev
 - [react](https://reactjs.org/)
 - [shadcn ui](https://ui.shadcn.com/)
 - [react-lucide](https://lucide.dev/)
-- [transmart](https://github.com/Quilljou/transmart)
 - [react-query](https://tanstack.com/query/latest/)
 - [tailwindcss](https://tailwindcss.com/)
 - [less](http://lesscss.org/)
