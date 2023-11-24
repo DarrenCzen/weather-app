@@ -1,6 +1,8 @@
 ## Weather Application
+
+https://darrenczen.github.io/weather-app/
+
 ![WeatherApp](https://github.com/DarrenCzen/weather-app/assets/29244334/8b9f5da8-2c00-4469-9049-701c4a5e42b8)
-![WeatherApp](https://github.com/DarrenCzen/weather-app/assets/29244334/3ef18c10-d3f9-4089-af0e-101f31e37020)
 
 React SPA application Weather Application built using `Vite`, `Tailwind`, `TS` and `shadcn ui`.
 
